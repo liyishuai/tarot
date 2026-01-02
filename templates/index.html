@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔮 塔罗占卜</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔮 塔罗占卜</h1>
+            <p>与智慧的塔罗师对话，探索内心的答案</p>
+        </div>
+
+        <div class="main-content">
+            <!-- Step 1: 输入问题 -->
+            <div id="step1" class="step active">
+                <h2>请输入您的问题</h2>
+                <p style="color: #666; margin: 15px 0;">告诉我您想要探索的问题，塔罗师会为您推荐合适的牌阵</p>
+                <textarea id="questionInput" class="question-input" rows="4" placeholder="例如：我最近在工作上遇到了困惑，不知道该如何选择..."></textarea>
+                <button class="btn" onclick="startReading()">开始占卜</button>
+            </div>
+
+            <!-- Step 2: 牌阵推荐对话 -->
+            <div id="step2" class="step">
+                <h2>塔罗师的建议</h2>
+                <div id="dialogSection" class="dialog-section">
+                    <!-- 对话内容将动态添加 -->
+                </div>
+                
+                <div id="spreadRecommendation" class="spread-recommendation hidden">
+                    <h3 id="spreadName"></h3>
+                    <p id="spreadDescription"></p>
+                    <div class="spread-positions">
+                        <h4>牌阵位置：</h4>
+                        <div id="spreadPositionsList"></div>
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <button class="btn" onclick="acceptSpread()">接受这个牌阵</button>
+                        <button class="btn btn-secondary" onclick="requestNewSpread()">换一个牌阵</button>
+                    </div>
+                </div>
+
+                <div id="loading1" class="loading hidden">
+                    <div class="spinner"></div>
+                    <p>塔罗师正在思考...</p>
+                </div>
+            </div>
+
+            <!-- Step 3: 抽牌 -->
+            <div id="step3" class="step">
+                <h2>抽取塔罗牌</h2>
+                <p style="color: #666; margin-bottom: 20px;">点击"随机抽牌"让命运为您选择</p>
+                
+                <div id="spreadLayout" class="spread-layout">
+                    <!-- 牌阵布局将动态生成 -->
+                </div>
+
+                <div style="text-align: center; margin: 20px 0;">
+                    <button class="btn" onclick="drawCards()">随机抽牌</button>
+                </div>
+
+                <div id="loading2" class="loading hidden">
+                    <div class="spinner"></div>
+                    <p>正在抽牌...</p>
+                </div>
+            </div>
+
+            <!-- Step 4: 显示牌义和解读 -->
+            <div id="step4" class="step">
+                <h2>您抽到的牌</h2>
+                
+                <div id="cardMeanings" class="card-meanings">
+                    <!-- 牌义将动态显示 -->
+                </div>
+
+                <div style="text-align: center; margin: 20px 0;">
+                    <button class="btn" onclick="getInterpretation()">获取塔罗师解读</button>
+                </div>
+
+                <div id="interpretation" class="interpretation hidden">
+                    <h3>🌟 塔罗师的解读</h3>
+                    <div id="interpretationText"></div>
+                </div>
+
+                <div id="loading3" class="loading hidden">
+                    <div class="spinner"></div>
+                    <p>塔罗师正在为您解读...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
