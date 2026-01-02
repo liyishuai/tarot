@@ -80,12 +80,15 @@ def test_card_selection():
     selected = random.choice(all_cards)
     assert selected in all_cards
     
-    # 测试避免重复
+    # 测试避免重复 - use set for efficient O(1) lookup
     drawn = []
+    drawn_set = set()
     for _ in range(10):
-        card = random.choice([c for c in all_cards if c not in drawn])
-        assert card not in drawn
+        available = [c for c in all_cards if c not in drawn_set]
+        card = random.choice(available)
+        assert card not in drawn_set
         drawn.append(card)
+        drawn_set.add(card)
     
     assert len(drawn) == 10
     assert len(set(drawn)) == 10  # 确保没有重复
@@ -108,6 +111,17 @@ def test_search():
     search_term = "权杖"
     matching = [c for c in all_cards if search_term in c]
     assert len(matching) == 14  # 14张权杖牌
+    
+    # 测试大小写不敏感搜索
+    search_term_lower = "fool"
+    matching_lower = [c for c in all_cards if search_term_lower.lower() in c.lower()]
+    assert len(matching_lower) > 0
+    assert any("Fool" in c for c in matching_lower)
+    
+    # 测试部分匹配
+    search_term_partial = "王"
+    matching_partial = [c for c in all_cards if search_term_partial in c]
+    assert len(matching_partial) > 0  # 应该找到王牌、国王等
     
     print("✓ 卡牌搜索测试通过")
 

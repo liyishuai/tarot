@@ -157,6 +157,9 @@ class TarotReader:
         
         print("开始抽牌...\n")
         
+        # Use a set to track drawn cards for O(1) lookup
+        drawn_card_names = set()
+        
         for i, position in enumerate(positions, 1):
             print(f"位置 {i}: {position}")
             
@@ -164,8 +167,9 @@ class TarotReader:
                 choice = input("  选择方式 - [r]随机抽取 或 [m]手动输入牌名: ").strip().lower()
                 
                 if choice == 'r':
-                    # 随机抽取
-                    card = random.choice([c for c in all_cards if c not in [x['card'] for x in self.drawn_cards]])
+                    # 随机抽取 - use set for efficient filtering
+                    available_cards = [c for c in all_cards if c not in drawn_card_names]
+                    card = random.choice(available_cards)
                     orientation = random.choice(['正位', '逆位'])
                     print(f"  抽到: {card} ({orientation})")
                     
@@ -174,6 +178,7 @@ class TarotReader:
                         'card': card,
                         'orientation': orientation
                     })
+                    drawn_card_names.add(card)
                     print()
                     break
                 
@@ -182,8 +187,8 @@ class TarotReader:
                     print(f"\n  可选的牌 (输入部分名称进行搜索):")
                     card_input = input("  输入牌名: ").strip()
                     
-                    # 搜索匹配的牌
-                    matching_cards = [c for c in all_cards if card_input in c]
+                    # 搜索匹配的牌 - case insensitive search
+                    matching_cards = [c for c in all_cards if card_input.lower() in c.lower()]
                     
                     if not matching_cards:
                         print("  没有找到匹配的牌，请重试。\n")
