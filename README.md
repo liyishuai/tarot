@@ -1,19 +1,21 @@
-# 🔮 Tarot - 塔罗牌占卜应用
+# 🔮 Tarot - 塔罗牌占卜 Web 应用
 
-一个使用 OpenAI 兼容 LLM 服务的交互式塔罗牌占卜应用。
+一个使用 OpenAI 兼容 LLM 服务的交互式塔罗牌占卜 Web 应用。
 
 ## ✨ 功能特性
 
 - 🤖 **智能对话**: 使用 OpenAI 兼容的 LLM 服务与用户进行多轮对话
-- 🃏 **多种牌阵**: 支持单张牌、三张牌、关系牌阵、决策牌阵和凯尔特十字牌阵
-- 🎲 **灵活抽牌**: 支持随机抽牌和手动选择牌
-- 📖 **智能解读**: 使用 LLM 提供专业的塔罗牌解读
+- 🎴 **LLM 创建牌阵**: LLM 通过 function calling 根据用户问题动态创建定制牌阵
+- 🔮 **Web 界面**: 现代化的 Web UI，可视化的牌阵布局
+- 📋 **完整牌义**: 内置所有 78 张塔罗牌的正位和逆位含义
+- 🎲 **随机抽牌**: 自动随机抽牌功能
+- 🌟 **智能解读**: LLM 结合牌义提供专业解读
 - 🌍 **中文支持**: 完整的中文界面和解读
 
 ## 📋 系统要求
 
 - Python 3.7+
-- OpenAI 兼容的 LLM API 服务 (如 OpenAI、Azure OpenAI、本地部署的模型等)
+- OpenAI 兼容的 LLM API 服务
 
 ## 🚀 快速开始
 
@@ -35,124 +37,128 @@ cp .env.example .env
 
 ```ini
 OPENAI_API_KEY=your_api_key_here
-OPENAI_BASE_URL=https://api.openai.com/v1
+OPENAI_BASE_URL=https://apis.iflow.cn/v1
 OPENAI_MODEL=gpt-3.5-turbo
+SECRET_KEY=your_secret_key_for_sessions
 ```
 
-**支持的 API 配置示例:**
-
-- **OpenAI 官方 API:**
-  ```ini
-  OPENAI_API_KEY=sk-...
-  OPENAI_BASE_URL=https://api.openai.com/v1
-  OPENAI_MODEL=gpt-3.5-turbo
-  ```
-
-- **Azure OpenAI:**
-  ```ini
-  OPENAI_API_KEY=your_azure_key
-  OPENAI_BASE_URL=https://your-resource.openai.azure.com/openai/deployments/your-deployment
-  OPENAI_MODEL=gpt-35-turbo
-  ```
-
-- **本地部署模型 (如 Ollama, LocalAI):**
-  ```ini
-  OPENAI_API_KEY=not-needed
-  OPENAI_BASE_URL=http://localhost:11434/v1
-  OPENAI_MODEL=llama2
-  ```
-
-### 3. 运行程序
+### 3. 运行应用
 
 ```bash
-python tarot.py
+python app.py
 ```
+
+访问 http://localhost:5000 开始使用。
 
 ## 📖 使用说明
 
 ### 基本流程
 
-1. **开始对话**: 程序启动后，塔罗占卜师会与你打招呼
-2. **交流问题**: 与占卜师对话，说明你的问题和困惑
-3. **选择牌阵**: 
-   - 输入 `spreads` 查看所有可用的牌阵
-   - 输入 `select` 开始选择牌阵
+1. **输入问题**: 在 Web 界面输入你的问题
+2. **LLM 推荐牌阵**: 
+   - LLM 通过 function calling 创建适合你问题的牌阵
+   - 可以接受推荐，或要求创建新牌阵
+3. **查看牌阵布局**: 
+   - UI 自动适配显示牌阵的可视化布局
+   - 每个位置标明含义
 4. **抽取塔罗牌**: 
-   - 每个位置可选择 `r` (随机抽取) 或 `m` (手动输入)
-   - 手动输入时可以搜索牌名
-5. **获得解读**: 占卜师会为你的牌阵提供详细解读
+   - 点击"随机抽牌"自动抽取所有位置的牌
+   - 牌会放置在对应的位置上
+5. **查看牌义**: 
+   - 先显示每张牌的基本含义（关键词和牌义）
+   - 包括位置含义
+6. **获得解读**: 
+   - LLM 基于牌义提供综合解读和建议
 
-### 可用的牌阵
+## 🎯 核心特性
 
-1. **单张牌阵**: 快速了解当下情况
-2. **三张牌阵**: 过去-现在-未来，了解发展轨迹
-3. **关系牌阵**: 探索两人关系动态
-4. **决策牌阵**: 帮助在两个选择间做决定
-5. **凯尔特十字牌阵**: 最全面的牌阵，深入探索问题
+### LLM Function Calling
 
-### 示例对话
+应用使用 OpenAI function calling 让 LLM 动态创建牌阵：
 
-```
-🔮🔮🔮🔮🔮🔮🔮🔮🔮🔮🔮🔮🔮🔮🔮🔮🔮🔮🔮🔮
-          欢迎来到塔罗占卜屋          
-🔮🔮🔮🔮🔮🔮🔮🔮🔮🔮🔮🔮🔮🔮🔮🔮🔮🔮🔮🔮
-
-==================================================
-塔罗占卜师: 你好！欢迎来到塔罗占卜屋...
-==================================================
-
-(输入 'spreads' 查看所有牌阵，输入 'select' 选择牌阵并开始占卜)
-
-你: 我最近在工作上遇到了一些困惑
-
-塔罗占卜师: 我理解你的困惑...
-
-你: select
-
-请选择一个塔罗牌阵:
-1. 单张牌阵 - 用一张牌快速了解当下的情况或得到简单的指引
-2. 三张牌阵 - 经典的过去-现在-未来牌阵，了解事情的发展轨迹
-...
+```python
+SPREAD_CREATION_TOOL = {
+    "type": "function",
+    "function": {
+        "name": "create_spread",
+        "description": "创建一个塔罗牌阵...",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {"type": "string"},
+                "description": {"type": "string"},
+                "positions": {"type": "array", ...}
+            }
+        }
+    }
+}
 ```
 
-## 🃏 塔罗牌说明
+### 牌义数据库
 
-本应用包含完整的 78 张塔罗牌：
-- **22 张大阿尔卡纳 (Major Arcana)**: 从愚者到世界
-- **56 张小阿尔卡纳 (Minor Arcana)**: 
-  - 权杖 (Wands) 14张
-  - 圣杯 (Cups) 14张
-  - 宝剑 (Swords) 14张
-  - 星币 (Pentacles) 14张
+包含完整的 78 张牌义：
+- **22 张大阿尔卡纳**: 从愚者到世界，每张牌都有详细的正位和逆位含义
+- **56 张小阿尔卡纳**: 权杖、圣杯、宝剑、星币各 14 张
 
-每张牌都支持正位和逆位解读。
+每张牌包括：
+- 关键词
+- 详细含义
+- 正位和逆位的不同解释
+
+### 可视化牌阵布局
+
+系统自动为不同数量的位置生成合适的布局：
+- 1-10 个位置有预定义的美观布局
+- 超过 10 个位置使用网格布局
+- 所有布局都是响应式的
 
 ## 🛠️ 技术栈
 
 - **Python 3**: 主要编程语言
-- **OpenAI Python SDK**: 与 LLM API 交互
-- **python-dotenv**: 环境变量管理
+- **Flask**: Web 框架
+- **OpenAI API**: LLM 服务（支持任何兼容的 API）
+- **HTML/CSS/JavaScript**: 前端界面
 
 ## 📝 项目结构
 
 ```
 tarot/
-├── tarot.py           # 主程序文件
-├── tarot_cards.py     # 塔罗牌数据定义
-├── requirements.txt   # Python 依赖
-├── .env.example       # 环境变量示例
-├── .gitignore         # Git 忽略文件
-└── README.md          # 项目文档
+├── app.py                # Flask 应用主文件
+├── card_meanings.py      # 78 张牌的完整牌义数据库
+├── spread_tools.py       # 牌阵创建工具（供 LLM 调用）
+├── templates/
+│   └── index.html        # Web 界面模板
+├── static/
+│   ├── style.css         # 样式文件
+│   └── script.js         # 前端 JavaScript
+├── requirements.txt      # Python 依赖
+├── .env.example          # 环境变量示例
+└── README.md             # 项目文档
 ```
 
-## 🤝 贡献
+## 🎨 界面截图
 
-欢迎提交 Issue 和 Pull Request！
+应用包含以下界面：
+
+1. **问题输入页**: 用户输入他们的问题
+2. **牌阵推荐对话**: 显示 LLM 的推荐和解释
+3. **可视化牌阵**: 根据牌阵自动布局，显示每个位置
+4. **牌义展示**: 先显示每张牌的含义
+5. **综合解读**: LLM 基于牌义的深度解读
+
+## 🔧 配置选项
+
+支持多种 LLM 服务：
+
+- **OpenAI**: `https://api.openai.com/v1`
+- **iFlow**: `https://apis.iflow.cn/v1`
+- **Azure OpenAI**: 自定义 endpoint
+- **本地模型**: 任何 OpenAI 兼容的 API
 
 ## 📄 许可证
 
-本项目采用 Apache License 2.0 许可证。详见 [LICENSE](LICENSE) 文件。
+本项目采用 Apache License 2.0 许可证。
 
 ## ⚠️ 免责声明
 
-本应用仅供娱乐和自我探索使用。塔罗牌解读不应作为专业建议的替代品。对于重要的人生决策，请咨询相关专业人士。
+本应用仅供娱乐和自我探索使用。塔罗牌解读不应作为专业建议的替代品。

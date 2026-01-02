@@ -1,0 +1,222 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Microsoft YaHei', 'Arial', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.header {
+    text-align: center;
+    color: white;
+    margin-bottom: 30px;
+}
+
+.header h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+.main-content {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+}
+
+.step {
+    display: none;
+}
+
+.step.active {
+    display: block;
+}
+
+.question-input {
+    width: 100%;
+    padding: 15px;
+    font-size: 16px;
+    border: 2px solid #667eea;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+}
+
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.btn-secondary {
+    background: #6c757d;
+    margin-left: 10px;
+}
+
+.dialog-section {
+    background: #f8f9fa;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.dialog-message {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.dialog-message.user {
+    background: #e3f2fd;
+    margin-left: 50px;
+}
+
+.dialog-message.assistant {
+    background: #f3e5f5;
+    margin-right: 50px;
+}
+
+.spread-recommendation {
+    background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+    border-radius: 15px;
+    padding: 25px;
+    margin: 20px 0;
+}
+
+.spread-recommendation h3 {
+    color: #2d3436;
+    margin-bottom: 15px;
+}
+
+.spread-positions {
+    background: white;
+    border-radius: 10px;
+    padding: 15px;
+    margin-top: 15px;
+}
+
+.position-item {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.position-item:last-child {
+    border-bottom: none;
+}
+
+.spread-layout {
+    position: relative;
+    width: 100%;
+    height: 600px;
+    background: #f8f9fa;
+    border-radius: 15px;
+    margin: 20px 0;
+}
+
+.card-position {
+    position: absolute;
+    width: 80px;
+    height: 120px;
+    border: 3px solid #667eea;
+    border-radius: 10px;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 12px;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.card-position:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+}
+
+.card-position.filled {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-color: #764ba2;
+}
+
+.card-meanings {
+    background: #fff3cd;
+    border-radius: 15px;
+    padding: 20px;
+    margin: 20px 0;
+}
+
+.card-meaning-item {
+    background: white;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.card-meaning-item h4 {
+    color: #667eea;
+    margin-bottom: 10px;
+}
+
+.interpretation {
+    background: #e8f5e9;
+    border-radius: 15px;
+    padding: 25px;
+    margin: 20px 0;
+    line-height: 1.8;
+}
+
+.loading {
+    text-align: center;
+    padding: 20px;
+    color: #667eea;
+}
+
+.spinner {
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #667eea;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.hidden {
+    display: none;
+}

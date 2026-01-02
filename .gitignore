@@ -10,4 +10,7 @@ __pycache__/
 dist/
 build/
 .DS_Store
+*.bak
+app_old.py
+README_OLD.md
 venv/
