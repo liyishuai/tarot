@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """
 塔罗牌占卜应用
-使用OpenAI兼容的LLM服务进行塔罗牌解读
+使用iflow平台的LLM服务进行塔罗牌解读
 """
 
 import os
 import sys
 import random
+import requests
 from typing import List, Dict, Optional
-from openai import OpenAI
 from dotenv import load_dotenv
 
 from tarot_cards import (
@@ -23,53 +23,70 @@ load_dotenv()
 
 class TarotReader:
     """塔罗牌占卜系统"""
-    
+
     def __init__(self):
         """初始化塔罗占卜系统"""
-        api_key = os.getenv("OPENAI_API_KEY")
-        base_url = os.getenv("OPENAI_BASE_URL", "https://api.openai.com/v1")
+        self.api_key = os.getenv("OPENAI_API_KEY")
+        self.base_url = os.getenv("OPENAI_BASE_URL", "https://apis.iflow.cn/v1")
         self.model = os.getenv("OPENAI_MODEL", "gpt-3.5-turbo")
-        
-        if not api_key:
+
+        if not self.api_key:
             raise ValueError("请设置 OPENAI_API_KEY 环境变量")
-        
-        self.client = OpenAI(
-            api_key=api_key,
-            base_url=base_url
-        )
-        
+
         self.conversation_history = []
         self.selected_spread = None
         self.drawn_cards = []
-    
+
     def chat(self, user_message: str, system_prompt: Optional[str] = None) -> str:
         """与LLM进行对话"""
         messages = []
-        
+
         # 添加系统提示
         if system_prompt:
             messages.append({
                 "role": "system",
                 "content": system_prompt
             })
-        
+
         # 添加历史对话
         messages.extend(self.conversation_history)
-        
+
         # 添加用户消息
         messages.append({
             "role": "user",
             "content": user_message
         })
-        
+
         try:
-            response = self.client.chat.completions.create(
-                model=self.model,
-                messages=messages
-            )
-            
-            assistant_message = response.choices[0].message.content
-            
+            # 构建请求
+            url = f"{self.base_url}/chat/completions"
+            headers = {
+                "Authorization": f"Bearer {self.api_key}",
+                "Content-Type": "application/json"
+            }
+            payload = {
+                "model": self.model,
+                "messages": messages
+            }
+
+            # 发送请求
+            response = requests.post(url, json=payload, headers=headers, timeout=30)
+            response.raise_for_status()
+
+            # 解析响应
+            data = response.json()
+
+            # 检查API错误
+            if "status" in data and data["status"] != "200":
+                error_msg = data.get("msg", "Unknown error")
+                return f"调用LLM服务时出错: {error_msg}"
+
+            # 验证响应结构
+            if "choices" not in data or not data["choices"]:
+                return f"调用LLM服务时出错: API 返回了空响应。请检查模型名称是否正确。"
+
+            assistant_message = data["choices"][0]["message"]["content"]
+
             # 保存对话历史
             self.conversation_history.append({
                 "role": "user",
@@ -79,8 +96,12 @@ class TarotReader:
                 "role": "assistant",
                 "content": assistant_message
             })
-            
+
             return assistant_message
+        except requests.exceptions.RequestException as e:
+            return f"调用LLM服务时出错: {str(e)}"
+        except (KeyError, ValueError) as e:
+            return f"调用LLM服务时出错: 响应格式错误 - {str(e)}"
         except Exception as e:
             return f"调用LLM服务时出错: {str(e)}"
     
