@@ -15,7 +15,6 @@ from tarot_cards import (
     get_all_cards,
     get_spread_info,
     list_all_spreads,
-    MAJOR_ARCANA,
 )
 
 # 加载环境变量

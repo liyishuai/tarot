@@ -6,6 +6,8 @@
 
 import sys
 import os
+import random
+import traceback
 
 # 添加当前目录到路径
 sys.path.insert(0, os.path.dirname(__file__))
@@ -73,7 +75,6 @@ def test_card_selection():
     """测试卡牌选择功能"""
     print("\n测试卡牌选择功能...")
     
-    import random
     all_cards = get_all_cards()
     
     # 测试随机选择
@@ -147,7 +148,6 @@ def main():
         return 1
     except Exception as e:
         print(f"\n❌ 发生错误: {e}")
-        import traceback
         traceback.print_exc()
         return 1
 
